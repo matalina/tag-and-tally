@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+
+    "outDir": "./netlify/functions", // Where the compiled JS goes
+    "rootDir": "./src-functions", // Where the TS source files live
+
+    "declaration": false,
+    "composite": false
+  },
+
+  "include": ["src-functions/**/*.ts"],
+
+  "exclude": ["node_modules", "dist", "src"]
+}
