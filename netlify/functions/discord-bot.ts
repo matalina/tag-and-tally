@@ -164,6 +164,7 @@ export const handler: Handler = async (event) => {
         timestampLength: timestamp?.length,
         bodyLength: rawBody?.length,
         publicKeyLength: PUBLIC_KEY?.length,
+        publicKeyPrefix: PUBLIC_KEY?.substring(0, 10),
       })
       return {
         statusCode: 401,
@@ -171,20 +172,32 @@ export const handler: Handler = async (event) => {
       }
     }
 
+    console.log('Signature verification passed')
+
     // Parse the interaction
     const interaction = JSON.parse(rawBody) as APIApplicationCommandInteraction | { type: number }
 
+    console.log(
+      'Interaction type:',
+      interaction.type,
+      'InteractionType.PING:',
+      InteractionType.PING,
+    )
+
     // Handle PING (Discord sends this to verify your endpoint)
-    // PING type is 1
+    // PING type is 1, PONG response type is also 1
     if (interaction.type === InteractionType.PING || interaction.type === 1) {
+      console.log('Responding to PING with PONG')
+      const pongResponse = {
+        type: InteractionResponseType.PONG,
+      }
+      console.log('PONG response:', JSON.stringify(pongResponse))
       return {
         statusCode: 200,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          type: InteractionResponseType.PONG,
-        }),
+        body: JSON.stringify(pongResponse),
       }
     }
 
