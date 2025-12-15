@@ -113,23 +113,28 @@ export const handler: Handler = async (event) => {
       }
     }
 
-    // Log all headers for debugging (remove in production)
-    console.log('Request headers:', JSON.stringify(event.headers, null, 2))
-    console.log('Body type:', typeof event.body, 'Body length:', event.body?.length)
+    // Get headers in a case-insensitive way
+    const getHeader = (name: string): string | undefined => {
+      const lowerName = name.toLowerCase()
+      for (const [key, value] of Object.entries(event.headers)) {
+        if (key.toLowerCase() === lowerName) {
+          return Array.isArray(value) ? value[0] : value
+        }
+      }
+      return undefined
+    }
 
-    // Verify signature - check all possible header case variations
-    // Netlify may normalize headers, so check multiple variations
-    const signature =
-      event.headers['x-signature-ed25519'] ||
-      event.headers['X-Signature-Ed25519'] ||
-      event.headers['x-signature-ed25519'.toLowerCase()] ||
-      event.headers['x-signature-ed25519'.toUpperCase()]
+    const signature = getHeader('x-signature-ed25519')
+    const timestamp = getHeader('x-signature-timestamp')
 
-    const timestamp =
-      event.headers['x-signature-timestamp'] ||
-      event.headers['X-Signature-Timestamp'] ||
-      event.headers['x-signature-timestamp'.toLowerCase()] ||
-      event.headers['x-signature-timestamp'.toUpperCase()]
+    // Log for debugging (check Netlify function logs)
+    console.log('Discord validation attempt', {
+      hasSignature: !!signature,
+      hasTimestamp: !!timestamp,
+      hasBody: !!event.body,
+      bodyType: typeof event.body,
+      headerKeys: Object.keys(event.headers),
+    })
 
     if (!signature || !timestamp || !event.body) {
       console.error('Missing signature, timestamp, or body', {
@@ -146,10 +151,11 @@ export const handler: Handler = async (event) => {
     }
 
     // Get raw body string for signature verification
-    // Netlify Functions v2 might have body as string or object
-    const rawBody = typeof event.body === 'string' ? event.body : JSON.stringify(event.body)
+    // In Netlify Functions, event.body is always a string for HTTP requests
+    const rawBody = event.body
 
     // Verify the request is from Discord
+    // verifyKey needs: body (string), signature (string), timestamp (string), publicKey (string)
     const isValidRequest = verifyKey(rawBody, signature, timestamp, PUBLIC_KEY)
 
     if (!isValidRequest) {
@@ -166,8 +172,7 @@ export const handler: Handler = async (event) => {
     }
 
     // Parse the interaction
-    const bodyData = typeof event.body === 'string' ? event.body : JSON.stringify(event.body)
-    const interaction = JSON.parse(bodyData) as APIApplicationCommandInteraction | { type: number }
+    const interaction = JSON.parse(rawBody) as APIApplicationCommandInteraction | { type: number }
 
     // Handle PING (Discord sends this to verify your endpoint)
     // PING type is 1
