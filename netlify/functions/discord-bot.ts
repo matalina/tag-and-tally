@@ -175,31 +175,48 @@ export const handler: Handler = async (event) => {
     console.log('Signature verification passed')
 
     // Parse the interaction
-    const interaction = JSON.parse(rawBody) as APIApplicationCommandInteraction | { type: number }
+    let interaction: APIApplicationCommandInteraction | { type: number }
+    try {
+      interaction = JSON.parse(rawBody) as APIApplicationCommandInteraction | { type: number }
+      console.log('Parsed interaction successfully')
+    } catch (parseError) {
+      console.error('Failed to parse interaction body:', parseError)
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid JSON body' }),
+      }
+    }
 
     console.log(
       'Interaction type:',
       interaction.type,
       'InteractionType.PING:',
       InteractionType.PING,
+      'InteractionResponseType.PONG:',
+      InteractionResponseType.PONG,
     )
 
     // Handle PING (Discord sends this to verify your endpoint)
     // PING type is 1, PONG response type is also 1
     if (interaction.type === InteractionType.PING || interaction.type === 1) {
       console.log('Responding to PING with PONG')
+      // PONG response must be exactly { "type": 1 }
       const pongResponse = {
-        type: InteractionResponseType.PONG,
+        type: 1, // Use literal 1 instead of InteractionResponseType.PONG to ensure correct value
       }
       console.log('PONG response:', JSON.stringify(pongResponse))
-      return {
+      const response = {
         statusCode: 200,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(pongResponse),
       }
+      console.log('Returning PONG response, statusCode:', response.statusCode)
+      return response
     }
+
+    console.log('Interaction type did not match PING, type was:', interaction.type)
 
     // Handle APPLICATION_COMMAND (slash commands)
     // APPLICATION_COMMAND type is 2
