@@ -40,7 +40,7 @@ export const handler: Handler = async (event) => {
   })
   const tokens = await res.json()
 
-  if (tokens.error) {
+  if ((tokens as { error?: string }).error) {
     return { statusCode: 400, body: JSON.stringify(tokens) }
   }
   // Return tokens as JSON (client will handle)

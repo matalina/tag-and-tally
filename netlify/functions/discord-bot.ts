@@ -113,16 +113,31 @@ export const handler: Handler = async (event) => {
       }
     }
 
-    // Verify signature - headers may be case-insensitive in Netlify
-    const signature = event.headers['x-signature-ed25519'] || event.headers['X-Signature-Ed25519']
+    // Log all headers for debugging (remove in production)
+    console.log('Request headers:', JSON.stringify(event.headers, null, 2))
+    console.log('Body type:', typeof event.body, 'Body length:', event.body?.length)
+
+    // Verify signature - check all possible header case variations
+    // Netlify may normalize headers, so check multiple variations
+    const signature =
+      event.headers['x-signature-ed25519'] ||
+      event.headers['X-Signature-Ed25519'] ||
+      event.headers['x-signature-ed25519'.toLowerCase()] ||
+      event.headers['x-signature-ed25519'.toUpperCase()]
+
     const timestamp =
-      event.headers['x-signature-timestamp'] || event.headers['X-Signature-Timestamp']
+      event.headers['x-signature-timestamp'] ||
+      event.headers['X-Signature-Timestamp'] ||
+      event.headers['x-signature-timestamp'.toLowerCase()] ||
+      event.headers['x-signature-timestamp'.toUpperCase()]
 
     if (!signature || !timestamp || !event.body) {
       console.error('Missing signature, timestamp, or body', {
         hasSignature: !!signature,
         hasTimestamp: !!timestamp,
         hasBody: !!event.body,
+        headers: Object.keys(event.headers),
+        bodyLength: event.body?.length,
       })
       return {
         statusCode: 401,
@@ -130,11 +145,20 @@ export const handler: Handler = async (event) => {
       }
     }
 
+    // Get raw body string for signature verification
+    // Netlify Functions v2 might have body as string or object
+    const rawBody = typeof event.body === 'string' ? event.body : JSON.stringify(event.body)
+
     // Verify the request is from Discord
-    const isValidRequest = verifyKey(event.body, signature, timestamp, PUBLIC_KEY)
+    const isValidRequest = verifyKey(rawBody, signature, timestamp, PUBLIC_KEY)
 
     if (!isValidRequest) {
-      console.error('Invalid signature verification')
+      console.error('Invalid signature verification', {
+        signatureLength: signature?.length,
+        timestampLength: timestamp?.length,
+        bodyLength: rawBody?.length,
+        publicKeyLength: PUBLIC_KEY?.length,
+      })
       return {
         statusCode: 401,
         body: JSON.stringify({ error: 'Invalid signature' }),
@@ -142,9 +166,8 @@ export const handler: Handler = async (event) => {
     }
 
     // Parse the interaction
-    const interaction = JSON.parse(event.body) as
-      | APIApplicationCommandInteraction
-      | { type: number }
+    const bodyData = typeof event.body === 'string' ? event.body : JSON.stringify(event.body)
+    const interaction = JSON.parse(bodyData) as APIApplicationCommandInteraction | { type: number }
 
     // Handle PING (Discord sends this to verify your endpoint)
     // PING type is 1
