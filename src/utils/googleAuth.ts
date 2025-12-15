@@ -1,5 +1,10 @@
 // /src/utils/googleAuth.ts
-const CLIENT_ID = '488994534863-flgc3ddj23ujf0j7bj2rbgvblqd5r7uk.apps.googleusercontent.com'
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
+
+if (!CLIENT_ID) {
+  console.error('VITE_GOOGLE_CLIENT_ID environment variable is not set')
+}
+
 const BASE_URL = window?.location?.origin || 'https://app.tagandtally.quest'
 const REDIRECT_URI = BASE_URL
 const SCOPES = ['openid', 'email', 'profile', 'https://www.googleapis.com/auth/drive.appdata'].join(
@@ -24,6 +29,10 @@ async function pkceChallenge() {
 }
 
 export async function startGoogleLogin() {
+  if (!CLIENT_ID) {
+    throw new Error('Google Client ID is not configured')
+  }
+
   const { verifier, challenge } = await pkceChallenge()
   sessionStorage.setItem('pkce_verifier', verifier)
 
