@@ -89,67 +89,104 @@ async function handleCommand(interaction: APIApplicationCommandInteraction) {
 }
 
 export const handler: Handler = async (event) => {
-  // Only allow POST requests
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: 'Method Not Allowed' }),
+  try {
+    if (event.httpMethod === 'GET') {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Lexi for Tag and Tally is up and running.' }),
+      }
     }
-  }
-
-  // Verify signature
-  const signature = event.headers['x-signature-ed25519']
-  const timestamp = event.headers['x-signature-timestamp']
-
-  if (!signature || !timestamp || !event.body) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ error: 'Unauthorized' }),
+    // Only allow POST requests
+    if (event.httpMethod !== 'POST') {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ error: 'Method Not Allowed' }),
+      }
     }
-  }
 
-  // Verify the request is from Discord
-  const isValidRequest = verifyKey(event.body, signature, timestamp, PUBLIC_KEY)
-
-  if (!isValidRequest) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ error: 'Invalid signature' }),
+    // Check if PUBLIC_KEY is set
+    if (!PUBLIC_KEY) {
+      console.error('DISCORD_PUBLIC_KEY is not set')
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Server configuration error' }),
+      }
     }
-  }
 
-  // Parse the interaction
-  const interaction = JSON.parse(event.body) as APIApplicationCommandInteraction | { type: number }
+    // Verify signature - headers may be case-insensitive in Netlify
+    const signature = event.headers['x-signature-ed25519'] || event.headers['X-Signature-Ed25519']
+    const timestamp =
+      event.headers['x-signature-timestamp'] || event.headers['X-Signature-Timestamp']
 
-  // Handle PING (Discord sends this to verify your endpoint)
-  if (interaction.type === InteractionType.PING) {
+    if (!signature || !timestamp || !event.body) {
+      console.error('Missing signature, timestamp, or body', {
+        hasSignature: !!signature,
+        hasTimestamp: !!timestamp,
+        hasBody: !!event.body,
+      })
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: 'Unauthorized' }),
+      }
+    }
+
+    // Verify the request is from Discord
+    const isValidRequest = verifyKey(event.body, signature, timestamp, PUBLIC_KEY)
+
+    if (!isValidRequest) {
+      console.error('Invalid signature verification')
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: 'Invalid signature' }),
+      }
+    }
+
+    // Parse the interaction
+    const interaction = JSON.parse(event.body) as
+      | APIApplicationCommandInteraction
+      | { type: number }
+
+    // Handle PING (Discord sends this to verify your endpoint)
+    // PING type is 1
+    if (interaction.type === InteractionType.PING || interaction.type === 1) {
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: InteractionResponseType.PONG,
+        }),
+      }
+    }
+
+    // Handle APPLICATION_COMMAND (slash commands)
+    // APPLICATION_COMMAND type is 2
+    if (interaction.type === InteractionType.APPLICATION_COMMAND || interaction.type === 2) {
+      const response = await handleCommand(interaction as APIApplicationCommandInteraction)
+
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(response),
+      }
+    }
+
+    // Unknown interaction type
     return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      statusCode: 400,
+      body: JSON.stringify({ error: 'Unknown interaction type' }),
+    }
+  } catch (error) {
+    console.error('Error in discord-bot handler:', error)
+    return {
+      statusCode: 500,
       body: JSON.stringify({
-        type: InteractionResponseType.PONG,
+        error: 'Internal server error',
+        message: error instanceof Error ? error.message : 'Unknown error',
       }),
     }
-  }
-
-  // Handle APPLICATION_COMMAND (slash commands)
-  if (interaction.type === InteractionType.APPLICATION_COMMAND) {
-    const response = await handleCommand(interaction as APIApplicationCommandInteraction)
-
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(response),
-    }
-  }
-
-  // Unknown interaction type
-  return {
-    statusCode: 400,
-    body: JSON.stringify({ error: 'Unknown interaction type' }),
   }
 }
