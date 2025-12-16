@@ -1,5 +1,5 @@
 import type { RandomTable } from '@/types'
-import { useRandomTables } from '@/use/random-tables'
+import { useTablesStore } from '@/stores/random-tables'
 
 /* Discovery Tables */
 
@@ -106,7 +106,7 @@ export const urbanTerrain: RandomTable = {
 }
 
 function rollUrbanDistrictAgain(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   return tables.random('urban-district').result
 }
 
@@ -131,7 +131,6 @@ export const urbanDistrict: RandomTable = {
     { min: 16, max: 16, value: rollUrbanDistrictAgain },
   ],
 }
-
 
 // TODO: Generate Functions
 export const urbanPointsOfInterest: RandomTable = {

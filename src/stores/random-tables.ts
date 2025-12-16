@@ -2,7 +2,9 @@ import type { RandomFunction, RandomTableState, TableOption, RollResult } from '
 import type { RandomTable } from '@/types'
 import { ref } from 'vue'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
-import { useRandomLists } from './random-lists'
+import { useListsStore } from './random-lists'
+import { defineStore } from 'pinia'
+import { tables as tablesData } from '@/data/tables'
 
 function roll(formula: string, table: TableOption[]): RollResult {
   const result = new DiceRoll(formula)
@@ -29,18 +31,32 @@ function createResolutionTable(level: number, oracle?: boolean) {
   return table
 }
 
-function getCombatResolutionActions(result: string): string {
+export function getCombatAttackActions(result: string): string {
   switch (result) {
     case 'Fail, and':
-      return '0 momentum (Attack) / -2 momentum/+2 enemy successes (Defense)'
     case 'Fail, but':
-      return '0 momentum (Attack) / -1 momentum/+1 enemy successes (Defense)'
     case 'Success, but':
-      return '0 momentum (Attack) / -1 momentum/+0 enemy successes (Defense)'
+      return '0 momentum'
     case 'Success':
-      return '+1 momentum (Attack) / 0 (Defense)'
+      return '+1 momentum'
     case 'Success, and':
-      return '+2 momentum (Attack) / 0 (Defense)'
+      return '+2 momentum'
+    default:
+      return ''
+  }
+}
+
+export function getCombatDefenseActions(result: string): string {
+  switch (result) {
+    case 'Fail, and':
+      return '-2 momentum/+2 enemy successes'
+    case 'Fail, but':
+      return '-1 momentum/+1 enemy successes'
+    case 'Success, but':
+      return '-1 momentum/+0 enemy successes'
+    case 'Success':
+    case 'Success, and':
+      return '0'
     default:
       return ''
   }
@@ -201,8 +217,10 @@ function getSecretsResolutionActions(result: string): string {
 
 function getSpecificResolutionActions(result: string, type?: string): string {
   switch (type) {
-    case 'combat':
-      return getCombatResolutionActions(result)
+    case 'attack':
+      return getCombatAttackActions(result)
+    case 'defense':
+      return getCombatDefenseActions(result)
     case 'npc':
       return getNPCResolutionActions(result)
     case 'spellcasting':
@@ -226,9 +244,13 @@ function getSpecificResolutionActions(result: string, type?: string): string {
   }
 }
 
-export function useRandomTables() {
-  const lists = useRandomLists()
+export const useTablesStore = defineStore('tables', () => {
+  const lists = useListsStore()
   const randomTables = ref<RandomTableState>({})
+
+  function init() {
+    randomTables.value = tablesData
+  }
 
   function add(table: RandomTable) {
     randomTables.value[table.name] = table
@@ -240,6 +262,10 @@ export function useRandomTables() {
 
   function remove(name: string) {
     delete randomTables.value[name]
+  }
+
+  function list() {
+    return Object.keys(randomTables.value)
   }
 
   function random(name: string) {
@@ -261,7 +287,7 @@ export function useRandomTables() {
       result.result?.toLowerCase().includes('and') ||
       result.result?.toLowerCase().includes('but')
     ) {
-      result.keywords?.push(...lists.roll('keywords', 3))
+      result.keywords?.push(...lists.random('keywords', 3))
     }
 
     if (type && type !== 'oracle') {
@@ -270,5 +296,5 @@ export function useRandomTables() {
     return result
   }
 
-  return { randomTables, add: add, get, delete: remove, random, resolve }
-}
+  return { randomTables, add: add, get, delete: remove, random, resolve, init, list }
+})

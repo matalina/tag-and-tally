@@ -1,5 +1,5 @@
 import type { RandomTable } from '@/types'
-import { useRandomTables } from '@/use/random-tables'
+import { useTablesStore } from '@/stores/random-tables'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
 
 /* Discovery Tables */
@@ -248,21 +248,21 @@ export const fantasyDungeonNameAdjective: RandomTable = {
 }
 
 function generateFantasyDungeonNamePattern1(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const descriptor = tables.random('fantasy-dungeon-name-descriptor').result
   const type = tables.random('fantasy-dungeon-name-type').result
   return `The ${descriptor} ${type}`
 }
 
 function generateFantasyDungeonNamePattern2(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const type = tables.random('fantasy-dungeon-name-type').result
   const threat = tables.random('fantasy-dungeon-name-threat').result
   return `The ${type} of ${threat}`
 }
 
 function generateFantasyDungeonNamePattern3(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const adjective = tables.random('fantasy-dungeon-name-adjective').result
   const type = tables.random('fantasy-dungeon-name-type').result
   return `${adjective} ${type}`
@@ -279,13 +279,13 @@ export const fantasyDungeonNamePattern: RandomTable = {
 }
 
 function fantasyFindSomething(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const artifact = tables.random('fantasy-objective-artifact').result
   return `Find ${artifact}`
 }
 
 function fantasyCollectThings(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const diceRoll = new DiceRoll('2d4')
   const count = diceRoll.total
   const thing = tables.random('fantasy-objective-things').result
@@ -293,25 +293,25 @@ function fantasyCollectThings(): string {
 }
 
 function fantasyKillCreatures(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const creatures = tables.random('fantasy-objective-creatures').result
   return `Kill the ${creatures}`
 }
 
 function fantasyRescueSomeone(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const someone = tables.random('fantasy-objective-someone').result
   return `Rescue ${someone}`
 }
 
 function fantasyClearDungeon(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const dungeonName = tables.random('fantasy-dungeon-name-pattern').result
   return `Clear the ${dungeonName} (Dungeon)`
 }
 
 function fantasyKillBoss(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   const boss = tables.random('fantasy-objective-boss').result
   return `Kill the ${boss}`
 }

@@ -1,5 +1,5 @@
 import type { RandomTable } from '@/types'
-import { useRandomTables } from '@/use/random-tables'
+import { useTablesStore } from '@/stores/random-tables'
 
 export const tier1SceneState: RandomTable = {
   name: 'tier1-scene-state',
@@ -86,12 +86,12 @@ export const artificialDisaster: RandomTable = {
 }
 
 function rollNaturalDisaster(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   return tables.random('natural-disaster').result
 }
 
 function rollArtificialDisaster(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   return tables.random('artificial-disaster').result
 }
 
@@ -143,7 +143,7 @@ export const timeDay: RandomTable = {
 }
 
 function rollDayOfWeekAgain(): string {
-  const tables = useRandomTables()
+  const tables = useTablesStore()
   return tables.random('day-of-week').result
 }
 
@@ -174,5 +174,19 @@ export const moonPhases: RandomTable = {
     { min: 6, max: 6, value: 'Waning Gibbous' },
     { min: 7, max: 7, value: 'Last Quarter' },
     { min: 8, max: 8, value: 'Waning Crescent' },
+  ],
+}
+
+export const pointOfInterest: RandomTable = {
+  name: 'point-of-interest',
+  formula: '1d20',
+  table: [
+    { min: 1, max: 3, value: '1d4 Clues' },
+    { min: 4, max: 7, value: 'Nothing' },
+    { min: 8, max: 9, value: 'Wandering Creature' },
+    { min: 10, max: 15, value: 'Wandering NPC' },
+    { min: 16, max: 16, value: '1d8+4 Room Dungeon' },
+    { min: 17, max: 17, value: '1d4-1 Room Creature Lair' },
+    { min: 18, max: 20, value: 'TerrainSpecific Encounter' },
   ],
 }

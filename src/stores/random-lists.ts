@@ -1,8 +1,14 @@
+import { lists as listsData } from '@/data/lists'
 import type { RandomListState, RandomList } from '@/types/index'
+import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export function useRandomLists() {
+export const useListsStore = defineStore('lists', () => {
   const randomLists = ref<RandomListState>({})
+
+  function init() {
+    randomLists.value = listsData
+  }
 
   function add(list: RandomList) {
     randomLists.value[list.name] = list
@@ -16,7 +22,11 @@ export function useRandomLists() {
     delete randomLists.value[name]
   }
 
-  function roll(name: string, count: number = 3) {
+  function list() {
+    return Object.keys(randomLists.value)
+  }
+
+  function random(name: string, count: number = 3) {
     const list = get(name)
 
     if (!list) {
@@ -36,6 +46,5 @@ export function useRandomLists() {
     return results
   }
 
-  return { randomLists, add, get, delete: remove, roll }
-}
-
+  return { randomLists, add, get, delete: remove, random, init, list }
+})
