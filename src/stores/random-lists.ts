@@ -1,5 +1,5 @@
 import { lists as listsData } from '@/data/lists'
-import type { RandomListState, RandomList } from '@/types/index'
+import type { RandomListState, RandomList } from '@/types/random-lists'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 

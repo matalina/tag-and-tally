@@ -1,4 +1,4 @@
-import type { RandomTableState } from '@/types/index'
+import type { RandomTableState } from '@/types/random-tables'
 import {
   tier1SceneState,
   tier2SceneState,

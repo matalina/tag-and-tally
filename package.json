@@ -13,7 +13,9 @@
     "format": "prettier --write src/",
     "start": "netlify dev",
     "register": "tsx scripts/register.ts",
-    "build-functions": "tsc --project tsconfig.functions.json"
+    "build-functions": "tsc --project tsconfig.functions.json",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@dice-roller/rpg-dice-roller": "^5.5.1",
@@ -30,16 +32,19 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@pinia/testing": "^1.0.3",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.1",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
     "dotenv": "^16.4.7",
     "eslint": "^9.29.0",
     "eslint-plugin-vue": "~10.2.0",
+    "happy-dom": "^20.0.11",
     "jiti": "^2.4.2",
     "npm-run-all2": "^8.0.4",
     "postcss": "^8.5.6",
@@ -51,6 +56,7 @@
     "vite-plugin-devtools": "^0.4.0",
     "vite-plugin-inspect": "^11.3.0",
     "vite-plugin-vue-devtools": "^7.7.7",
+    "vitest": "^4.0.16",
     "vue-tsc": "^2.2.10"
   },
   "overrides": {

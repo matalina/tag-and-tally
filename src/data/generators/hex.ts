@@ -1,4 +1,6 @@
-import type { GeneratorOptions, Hex } from '@/types'
+import type { GeneratorOptions } from '@/types/generators'
+import type { Hex } from '@/types/locations'
+import type { OverlandTerrain, DistrictTypes } from '@/types/terrain'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
 import { useTablesStore } from '@/stores/random-tables'
 
@@ -11,14 +13,18 @@ export const hexGenerator = {
     let terrain: string
     let feature: string
 
-    switch (options.terrain) {
+    switch (options.terrainType) {
       case 'urban':
-        terrain = tables.random('urban-district').result
+        terrain = options?.terrain
+          ? (options.terrain as DistrictTypes)
+          : tables.random('urban-district').result
         feature = tables.random('urban-terrain').result
         break
       case 'overland':
       default:
-        terrain = tables.random('overland-terrain').result
+        terrain = options?.terrain
+          ? (options.terrain as OverlandTerrain)
+          : tables.random('overland-terrain').result
         feature = tables.random('overland-feature').result
         break
     }

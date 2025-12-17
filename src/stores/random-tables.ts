@@ -1,22 +1,26 @@
-import type { RandomFunction, RandomTableState, TableOption, RollResult } from '@/types/index'
-import type { RandomTable } from '@/types'
+import type {
+  RandomFunction,
+  RandomTableState,
+  TableOption,
+  TableResult,
+} from '@/types/random-tables'
+import type { RandomTable } from '@/types/random-tables'
 import { ref } from 'vue'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
 import { useListsStore } from './random-lists'
 import { defineStore } from 'pinia'
 import { tables as tablesData } from '@/data/tables'
 
-function roll(formula: string, table: TableOption[]): RollResult {
+function roll(formula: string, table: TableOption[]): TableResult {
   const result = new DiceRoll(formula)
 
   for (const row of table) {
     if (result.total >= (row.min ?? result.minTotal) && result.total <= (row.max ?? Infinity)) {
-      if (typeof row.value === 'string')
-        return { roll: result.output, result: row.value, keywords: [] }
-      return { roll: result.output, result: (row.value as RandomFunction)(), keywords: [] }
+      if (typeof row.value === 'string') return { roll: result, result: row.value, keywords: [] }
+      return { roll: result, result: (row.value as RandomFunction)().toString(), keywords: [] }
     }
   }
-  return { roll: result.output, result: 'unknown', keywords: [] }
+  return { roll: result, result: 'unknown', keywords: [] }
 }
 
 function createResolutionTable(level: number, oracle?: boolean) {
@@ -278,7 +282,7 @@ export const useTablesStore = defineStore('tables', () => {
     return roll(table.formula, table.table)
   }
 
-  function resolve(level: number, type?: string): RollResult {
+  function resolve(level: number, type?: string): TableResult {
     const oracle = type === 'oracle' ? true : false
 
     const table = createResolutionTable(level, oracle)
@@ -291,7 +295,7 @@ export const useTablesStore = defineStore('tables', () => {
     }
 
     if (type && type !== 'oracle') {
-      result.actions = getSpecificResolutionActions(result.result, type)
+      result.actions = [getSpecificResolutionActions(result.result, type)]
     }
     return result
   }

@@ -1,4 +1,4 @@
-import type { RandomTable } from '@/types'
+import type { RandomTable } from '@/types/random-tables'
 import { useTablesStore } from '@/stores/random-tables'
 
 export const tier1SceneState: RandomTable = {
@@ -181,12 +181,12 @@ export const pointOfInterest: RandomTable = {
   name: 'point-of-interest',
   formula: '1d20',
   table: [
-    { min: 1, max: 3, value: '1d4 Clues' },
+    { min: 1, max: 3, value: 'Clue' },
     { min: 4, max: 7, value: 'Nothing' },
-    { min: 8, max: 9, value: 'Wandering Creature' },
-    { min: 10, max: 15, value: 'Wandering NPC' },
-    { min: 16, max: 16, value: '1d8+4 Room Dungeon' },
-    { min: 17, max: 17, value: '1d4-1 Room Creature Lair' },
-    { min: 18, max: 20, value: 'TerrainSpecific Encounter' },
+    { min: 8, max: 9, value: 'Creature' },
+    { min: 10, max: 15, value: 'NPC' },
+    { min: 16, max: 16, value: 'Dungeon' },
+    { min: 17, max: 17, value: 'Lair' },
+    { min: 18, max: 20, value: 'Encounter' },
   ],
 }

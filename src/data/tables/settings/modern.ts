@@ -1,4 +1,4 @@
-import type { RandomTable } from '@/types'
+import type { RandomTable } from '@/types/random-tables'
 import { useTablesStore } from '@/stores/random-tables'
 
 /* Discovery Tables */

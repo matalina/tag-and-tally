@@ -1,4 +1,5 @@
-import type { GeneratorOptions, Generators, TagAndTallyGenerator, TagAndTallyObject } from '@/types'
+import type { GeneratorOptions, Generators, TagAndTallyGenerator } from '@/types/generators'
+import type { TagAndTallyObject } from '@/types/tag-and-tally'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { generators as generatorsData } from '@/data/generators'

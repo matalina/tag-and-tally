@@ -1,32 +1,29 @@
 import {
+  districtTypes,
+  overlandFeatures,
+  overlandTerrain,
+  pointOfInterestTypes,
+  urbanFeatures,
+} from '@/types/terrain'
+import { keywords } from './keywords'
+import type { RandomListState } from '@/types/random-lists'
+import { exitDirections } from '@/types/locations'
+import { relationshipStatus, woundTypes } from '@/types/characters'
+import {
   armorMaterial,
   armorType,
   consumableType,
   damageType,
-  districtTypes,
-  exitDirections,
   itemType,
-  overlandFeatures,
-  overlandTerrain,
-  pointOfInterestTypes,
-  questType,
-  rarity,
-  relationshipStatus,
-  resourceType,
-  rewardType,
-  sceneType,
-  spellArtifact,
-  spellAspect,
-  spellBase,
-  spellType,
-  trapType,
-  urbanFeatures,
   weaponMaterial,
   weaponType,
-  woundTypes,
-} from '@/types/index'
-import { keywords } from './keywords'
-import type { RandomListState } from '@/types/index'
+} from '@/types/gear'
+import { trapType } from '@/types/gear'
+import { spellBase } from '@/types/spells'
+import { spellType } from '@/types/spells'
+import { spellAspect } from '@/types/spells'
+import { questType, rewardType, sceneType } from '@/types/scene'
+import { rarity, resourceType } from '@/types/resources'
 
 export const lists: RandomListState = {
   [keywords.name]: keywords,
@@ -48,7 +45,6 @@ export const lists: RandomListState = {
   'spell-base': { name: 'spell-base', list: spellBase },
   'spell-type': { name: 'spell-type', list: spellType },
   'spell-aspect': { name: 'spell-aspect', list: spellAspect },
-  'spell-artifact': { name: 'spell-artifact', list: spellArtifact },
   'quest-type': { name: 'quest-type', list: questType },
   'scene-type': { name: 'scene-type', list: sceneType },
   'reward-type': { name: 'reward-type', list: rewardType },

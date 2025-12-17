@@ -1,4 +1,4 @@
-import type { RandomTable } from '@/types'
+import type { RandomTable } from '@/types/random-tables'
 
 export const creatureType: RandomTable = {
   name: 'creature-type',
