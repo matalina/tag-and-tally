@@ -1,5 +1,6 @@
 import CharacterView from '@/views/CharacterView.vue'
 import HomeView from '@/views/HomeView.vue'
+import MapView from '@/views/MapView.vue'
 import RandomTableView from '@/views/RandomTableView.vue'
 import StoryView from '@/views/StoryView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -27,6 +28,11 @@ const router = createRouter({
       name: 'random-table',
       component: RandomTableView,
     },
+    {
+      path: '/map',
+      name: 'map',
+      component: MapView,
+    }
   ],
 })
 

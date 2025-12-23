@@ -73,6 +73,7 @@ function logout() {
     <RouterLink to="/story">Story</RouterLink>
     <RouterLink to="/character">Characters</RouterLink>
     <RouterLink to="/random-table">Random Tables</RouterLink>
+    <RouterLink to="/map">Map</RouterLink>
     <button v-if="!user" @click="login">
       <AppIcon name="google" altText="Sign in with Google" /> Sign In with Google
     </button>
