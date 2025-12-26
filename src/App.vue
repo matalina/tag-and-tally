@@ -1,15 +1,11 @@
 <script lang="ts" setup>
 import { RouterView } from 'vue-router'
-import AppSidebar from '@/components/AppSidebar.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 </script>
 
 <template>
   <div id="main">
-    <aside>
-      <AppSidebar />
-    </aside>
     <header>
       <AppHeader />
     </header>
@@ -27,16 +23,13 @@ import AppFooter from './components/AppFooter.vue'
   display: grid;
   gap: var(--size-3);
   grid-template-areas:
-    'aside header'
-    'aside main'
-    'aside footer';
-  grid-template-columns: var(--size-13) 1fr;
+    'header'
+    'main'
+    'footer';
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
   min-height: 100vh;
-}
-aside {
-  grid-area: aside;
 }
 
 header {

@@ -4,6 +4,7 @@ import { startGoogleLogin } from '@/utils/googleAuth'
 import { useUserStore } from '@/stores/user'
 import AppIcon from '@/components/ui/AppIcon.vue'
 import { RouterLink } from 'vue-router'
+import AppLogo from './ui/AppLogo.vue'
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
@@ -69,7 +70,7 @@ function logout() {
 
 <template>
   <nav>
-    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/"><AppLogo size="small" /></RouterLink>
     <RouterLink to="/story">Story</RouterLink>
     <RouterLink to="/character">Characters</RouterLink>
     <RouterLink to="/random-table">Random Tables</RouterLink>
@@ -89,7 +90,5 @@ nav {
   display: flex;
   align-items: center;
   gap: var(--size-3);
-}
-nav > * {
 }
 </style>
