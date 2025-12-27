@@ -122,6 +122,118 @@ export const terrainFeature: RandomTable = {
   ],
 }
 
+export const forestAdjacency: RandomTable = {
+  name: 'Forest Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Plains' },
+    { min: 4, max: 5, value: 'Swamp' },
+    { min: 6, max: 6, value: 'Mountain' },
+    { min: 7, max: 7, value: 'Forest' },
+    { min: 8, max: 8, value: 'Magiclands' },
+    { min: 9, max: 10, value: 'Wastelands' },
+    { min: 11, max: 12, value: 'Island' },
+  ],
+}
+
+export const plainsAdjacency: RandomTable = {
+  name: 'Plains Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Forest' },
+    { min: 4, max: 5, value: 'Desert' },
+    { min: 6, max: 6, value: 'Mountain' },
+    { min: 7, max: 7, value: 'Plains' },
+    { min: 8, max: 8, value: 'Swamp' },
+    { min: 9, max: 10, value: 'Wastelands' },
+    { min: 11, max: 12, value: 'Island' },
+  ],
+}
+
+export const mountainAdjacency: RandomTable = {
+  name: 'Mountain Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Forest' },
+    { min: 4, max: 5, value: 'Plains' },
+    { min: 6, max: 6, value: 'Desert' },
+    { min: 7, max: 7, value: 'Mountain' },
+    { min: 8, max: 8, value: 'Wastelands' },
+    { min: 9, max: 10, value: 'Magiclands' },
+    { min: 11, max: 12, value: 'Island' },
+  ],
+}
+
+export const swampAdjacency: RandomTable = {
+  name: 'Swamp Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Forest' },
+    { min: 4, max: 5, value: 'Plains' },
+    { min: 6, max: 6, value: 'Island' },
+    { min: 7, max: 7, value: 'Swamp' },
+    { min: 8, max: 8, value: 'Magiclands' },
+    { min: 9, max: 10, value: 'Wastelands' },
+    { min: 11, max: 12, value: 'Desert' },
+  ],
+}
+
+export const islandAdjacency: RandomTable = {
+  name: 'Island Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Plains' },
+    { min: 4, max: 5, value: 'Swamp' },
+    { min: 6, max: 6, value: 'Forest' },
+    { min: 7, max: 7, value: 'Island' },
+    { min: 8, max: 8, value: 'Desert' },
+    { min: 9, max: 10, value: 'Magiclands' },
+    { min: 11, max: 12, value: 'Mountain' },
+  ],
+}
+
+export const desertAdjacency: RandomTable = {
+  name: 'Desert Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Plains' },
+    { min: 4, max: 5, value: 'Mountain' },
+    { min: 6, max: 6, value: 'Wastelands' },
+    { min: 7, max: 7, value: 'Desert' },
+    { min: 8, max: 8, value: 'Island' },
+    { min: 9, max: 10, value: 'Magiclands' },
+    { min: 11, max: 12, value: 'Forest' },
+  ],
+}
+
+export const wastelandsAdjacency: RandomTable = {
+  name: 'Wastelands Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Desert' },
+    { min: 4, max: 5, value: 'Mountain' },
+    { min: 6, max: 6, value: 'Plains' },
+    { min: 7, max: 7, value: 'Wastelands' },
+    { min: 8, max: 8, value: 'Swamp' },
+    { min: 9, max: 10, value: 'Magiclands' },
+    { min: 11, max: 12, value: 'Forest' },
+  ],
+}
+
+export const magiclandsAdjacency: RandomTable = {
+  name: 'Magiclands Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Forest' },
+    { min: 4, max: 5, value: 'Swamp' },
+    { min: 6, max: 6, value: 'Mountain' },
+    { min: 7, max: 7, value: 'Magiclands' },
+    { min: 8, max: 8, value: 'Desert' },
+    { min: 9, max: 10, value: 'Wastelands' },
+    { min: 11, max: 12, value: 'Plains' },
+  ],
+}
+
 // TODO: Generate Functions
 export const fantasyPointsOfInterest: RandomTable = {
   name: 'fantasy-points-of-interest',

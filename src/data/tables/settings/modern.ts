@@ -132,6 +132,203 @@ export const urbanDistrict: RandomTable = {
   ],
 }
 
+export const highClassAdjacency: RandomTable = {
+  name: 'High Class Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Financial' },
+    { min: 4, max: 5, value: 'Government' },
+    { min: 6, max: 6, value: 'University' },
+    { min: 7, max: 7, value: 'High Class' },
+    { min: 8, max: 8, value: 'Park' },
+    { min: 9, max: 10, value: 'Commercial' },
+    { min: 11, max: 12, value: 'Downtown' },
+  ],
+}
+
+export const financialAdjacency: RandomTable = {
+  name: 'Financial Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Downtown' },
+    { min: 4, max: 5, value: 'Commercial' },
+    { min: 6, max: 6, value: 'High Class' },
+    { min: 7, max: 7, value: 'Financial' },
+    { min: 8, max: 8, value: 'Government' },
+    { min: 9, max: 10, value: 'Tech' },
+    { min: 11, max: 12, value: 'Warehouse' },
+  ],
+}
+
+export const middleClassAdjacency: RandomTable = {
+  name: 'Middle Class Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Commercial' },
+    { min: 4, max: 5, value: 'Park' },
+    { min: 6, max: 6, value: 'University' },
+    { min: 7, max: 7, value: 'Middle Class' },
+    { min: 8, max: 8, value: 'Downtown' },
+    { min: 9, max: 10, value: 'Slums' },
+    { min: 11, max: 12, value: 'Medical Park' },
+  ],
+}
+
+export const slumsAdjacency: RandomTable = {
+  name: 'Slums Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Industrial' },
+    { min: 4, max: 5, value: 'Warehouse' },
+    { min: 6, max: 6, value: 'Commercial' },
+    { min: 7, max: 7, value: 'Slums' },
+    { min: 8, max: 8, value: 'Middle Class' },
+    { min: 9, max: 10, value: 'Entertainment' },
+    { min: 11, max: 12, value: 'Downtown' },
+  ],
+}
+
+export const parkAdjacency: RandomTable = {
+  name: 'Park Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Middle Class' },
+    { min: 4, max: 5, value: 'High Class' },
+    { min: 6, max: 6, value: 'University' },
+    { min: 7, max: 7, value: 'Park' },
+    { min: 8, max: 8, value: 'Medical Park' },
+    { min: 9, max: 10, value: 'Downtown' },
+    { min: 11, max: 12, value: 'Entertainment' },
+  ],
+}
+
+export const medicalParkAdjacency: RandomTable = {
+  name: 'Medical Park Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'University' },
+    { min: 4, max: 5, value: 'Park' },
+    { min: 6, max: 6, value: 'Middle Class' },
+    { min: 7, max: 7, value: 'Medical Park' },
+    { min: 8, max: 8, value: 'Government' },
+    { min: 9, max: 10, value: 'Downtown' },
+    { min: 11, max: 12, value: 'Commercial' },
+  ],
+}
+
+export const commercialAdjacency: RandomTable = {
+  name: 'Commercial Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Downtown' },
+    { min: 4, max: 5, value: 'Middle Class' },
+    { min: 6, max: 6, value: 'Financial' },
+    { min: 7, max: 7, value: 'Commercial' },
+    { min: 8, max: 8, value: 'Entertainment' },
+    { min: 9, max: 10, value: 'Warehouse' },
+    { min: 11, max: 12, value: 'Slums' },
+  ],
+}
+
+export const downtownAdjacency: RandomTable = {
+  name: 'Downtown Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Commercial' },
+    { min: 4, max: 5, value: 'Financial' },
+    { min: 6, max: 6, value: 'Government' },
+    { min: 7, max: 7, value: 'Downtown' },
+    { min: 8, max: 8, value: 'Entertainment' },
+    { min: 9, max: 10, value: 'Middle Class' },
+    { min: 11, max: 12, value: 'Tech' },
+  ],
+}
+
+export const governmentAdjacency: RandomTable = {
+  name: 'Government Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Downtown' },
+    { min: 4, max: 5, value: 'Financial' },
+    { min: 6, max: 6, value: 'High Class' },
+    { min: 7, max: 7, value: 'Government' },
+    { min: 8, max: 8, value: 'Medical Park' },
+    { min: 9, max: 10, value: 'University' },
+    { min: 11, max: 12, value: 'Commercial' },
+  ],
+}
+
+export const universityAdjacency: RandomTable = {
+  name: 'University Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Tech' },
+    { min: 4, max: 5, value: 'Medical Park' },
+    { min: 6, max: 6, value: 'Middle Class' },
+    { min: 7, max: 7, value: 'University' },
+    { min: 8, max: 8, value: 'Park' },
+    { min: 9, max: 10, value: 'Downtown' },
+    { min: 11, max: 12, value: 'Commercial' },
+  ],
+}
+
+export const entertainmentAdjacency: RandomTable = {
+  name: 'Entertainment Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Downtown' },
+    { min: 4, max: 5, value: 'Commercial' },
+    { min: 6, max: 6, value: 'Slums' },
+    { min: 7, max: 7, value: 'Entertainment' },
+    { min: 8, max: 8, value: 'Middle Class' },
+    { min: 9, max: 10, value: 'Park' },
+    { min: 11, max: 12, value: 'Warehouse' },
+  ],
+}
+
+export const techAdjacency: RandomTable = {
+  name: 'Tech Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'University' },
+    { min: 4, max: 5, value: 'Financial' },
+    { min: 6, max: 6, value: 'Downtown' },
+    { min: 7, max: 7, value: 'Tech' },
+    { min: 8, max: 8, value: 'Industrial' },
+    { min: 9, max: 10, value: 'Warehouse' },
+    { min: 11, max: 12, value: 'Commercial' },
+  ],
+}
+
+export const warehouseAdjacency: RandomTable = {
+  name: 'Warehouse Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Industrial' },
+    { min: 4, max: 5, value: 'Slums' },
+    { min: 6, max: 6, value: 'Commercial' },
+    { min: 7, max: 7, value: 'Warehouse' },
+    { min: 8, max: 8, value: 'Tech' },
+    { min: 9, max: 10, value: 'Downtown' },
+    { min: 11, max: 12, value: 'Entertainment' },
+  ],
+}
+
+export const industrialAdjacency: RandomTable = {
+  name: 'Industrial Adjacency',
+  formula: '2d6',
+  table: [
+    { min: 2, max: 3, value: 'Warehouse' },
+    { min: 4, max: 5, value: 'Slums' },
+    { min: 6, max: 6, value: 'Tech' },
+    { min: 7, max: 7, value: 'Industrial' },
+    { min: 8, max: 8, value: 'Commercial' },
+    { min: 9, max: 10, value: 'Downtown' },
+    { min: 11, max: 12, value: 'Middle Class' },
+  ],
+}
+
+
 // TODO: Generate Functions
 export const urbanPointsOfInterest: RandomTable = {
   name: 'urban-points-of-interest',
